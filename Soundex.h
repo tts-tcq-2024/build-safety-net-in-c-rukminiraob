@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 
-// ............................ABCDEFGHIJKLMNOPQRSTUVWXYZ
+//...........................ABCDEFGHIJKLMNOPQRSTUVWXYZ
 static const char* mappings = "01230120022455012623010202";
 
 char getMappedChar(char c) {
