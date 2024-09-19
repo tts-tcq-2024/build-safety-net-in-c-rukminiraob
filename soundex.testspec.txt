@@ -1,0 +1,49 @@
+Test Suite Name: SoundexTestsuite
+Test Case 1: ReplacesConsonantsWithAppropriateDigits
+
+Objective:
+Verify that the generateSoundex function correctly replaces consonants with their appropriate Soundex digits for various input strings, adhering to Soundex encoding rules.
+
+Preconditions:
+
+    The generateSoundex function is available and functional.
+    The output Soundex code should be 4 characters long.
+
+Test Procedure:
+For each input string:
+
+    Pass the input string and an empty array (soundex[5]) to the generateSoundex function.
+    Assert that the returned Soundex code matches the expected result.
+
+Test Data:
+Input	   Expected Output
+"AX"	     "A200"
+"Robert"	 "R163"
+"Rupert"	 "R163"
+"Rubin"	   "R150"
+"Ashcraft" "A261"
+"Ashcroft" "A261"
+
+Expected Result:
+The function returns the correct Soundex code for each string.
+
+Test Case 2: NonAlphabetCharacter
+Objective:
+Verify that the generateSoundex function correctly handles input strings containing non-alphabetic characters by ignoring them and generating the appropriate Soundex code.
+
+Preconditions:
+
+    The generateSoundex function is available and functional.
+    Non-alphabetic characters should be ignored during Soundex code generation.
+
+Test Procedure:
+
+    Pass the input string containing a non-alphabetic character ("A#hcroft") and an empty array (soundex[5]) to the generateSoundex function.
+    Assert that the returned Soundex code matches the expected result.
+
+Test Data:
+Input	Expected Output
+"A#hcroft"	"A261"
+
+Expected Result:
+The function ignores the # symbol and generates the correct Soundex code for the remaining alphabetic characters.

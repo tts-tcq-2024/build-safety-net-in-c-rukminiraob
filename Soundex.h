@@ -1,37 +1,45 @@
 #ifndef SOUNDEX_H
 #define SOUNDEX_H
 
-#include "Soundex.h"
 #include <ctype.h>
 #include <string.h>
 
-char getSoundexCode(char c) {
+//...........................ABCDEFGHIJKLMNOPQRSTUVWXYZ
+static const char* mappings = "01230120022455012623010202";
+
+char getMappedChar(char c) {
     c = toupper(c);
-    switch (c) {
-        case 'B': case 'F': case 'P': case 'V': return '1';
-        case 'C': case 'G': case 'J': case 'K': case 'Q': case 'S': case 'X': case 'Z': return '2';
-        case 'D': case 'T': return '3';
-        case 'L': return '4';
-        case 'M': case 'N': return '5';
-        case 'R': return '6';
-        default: return '0'; // For A, E, I, O, U, H, W, Y
+
+    if (c < 'A' || c > 'Z') {
+        return '0'; // Handle non-alphabetic characters
+    }
+
+    return mappings[c - 'A'];
+}
+
+int isValidToAdd(char mappedChar, char lastChar, int si) {
+    return (si < 4) && (mappedChar != '0') && (mappedChar != lastChar);
+}
+
+void addChar(char mappedChar, char* soundex, int* sip) {
+    if (isValidToAdd(mappedChar, soundex[*sip - 1], *sip)) {
+        soundex[*sip] = mappedChar;
+        (*sip)++;
     }
 }
 
-void generateSoundex(const char *name, char *soundex) {
-    int len = strlen(name);
+void generateSoundex(const char* name, char* soundex) {
+    int si = 1;
     soundex[0] = toupper(name[0]);
-    int sIndex = 1;
+    int l = strlen(name);
 
-    for (int i = 1; i < len && sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
-        if (code != '0' && code != soundex[sIndex - 1]) {
-            soundex[sIndex++] = code;
-        }
+    for (int i = 1; i < l; i++) {
+        char mappedChar = getMappedChar(name[i]);
+        addChar(mappedChar, soundex, &si);
     }
 
-    while (sIndex < 4) {
-        soundex[sIndex++] = '0';
+    while (si < 4) {
+        soundex[si++] = '0';
     }
 
     soundex[4] = '\0';
